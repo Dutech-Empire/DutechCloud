@@ -1,0 +1,205 @@
+/* ----------------------------
+   GLOBAL
+----------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: all 0.25s ease-in-out;
+}
+
+.app {
+  height: 100vh;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 25px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+
+  /* Smooth background fade */
+  transition: background-image 0.7s ease-in-out;
+}
+
+/* ----------------------------
+   HEADER
+----------------------------- */
+.header {
+  text-align: center;
+  margin-bottom: 25px;
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+.logo {
+  width: 150px;
+  margin-bottom: 8px;
+}
+
+.header h1 {
+  color: #0aa06e;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+/* ----------------------------
+   SEARCH BOX
+----------------------------- */
+.search-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  animation: slideIn 1s ease;
+}
+
+.search-box input {
+  padding: 12px 18px;
+  width: 260px;
+  border-radius: 10px;
+  border: 2px solid #0aa06e;
+  font-size: 16px;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: #0c8a5b;
+}
+
+.search-box button {
+  padding: 12px 22px;
+  border-radius: 10px;
+  border: none;
+  background-color: #0aa06e;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.search-box button:hover {
+  transform: scale(1.06);
+  background-color: #0c8a5b;
+}
+
+/* ----------------------------
+   ERROR
+----------------------------- */
+.error {
+  color: red;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+/* ----------------------------
+   WEATHER CARD
+----------------------------- */
+.weather-card {
+  margin-top: 20px;
+  padding: 25px;
+  width: 300px;
+
+  background: white;
+  border-radius: 16px;
+  border-left: 6px solid #0aa06e;
+
+  text-align: center;
+
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+
+  /* animation */
+  animation: fadeInUp 0.8s ease;
+}
+
+.weather-card h2 {
+  color: #0aa06e;
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.temp {
+  font-size: 50px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.condition {
+  font-size: 22px;
+  font-weight: bold;
+  color: #0aa06e;
+  margin-bottom: 4px;
+}
+
+.description {
+  font-size: 16px;
+  text-transform: capitalize;
+}
+
+/* ----------------------------
+   ANIMATIONS
+----------------------------- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ----------------------------
+   RESPONSIVENESS
+----------------------------- */
+@media (max-width: 500px) {
+  .logo {
+    width: 120px;
+  }
+
+  .header h1 {
+    font-size: 22px;
+  }
+
+  .search-box {
+    flex-direction: column;
+    width: 95%;
+  }
+
+  .search-box input {
+    width: 100%;
+  }
+
+  .search-box button {
+    width: 100%;
+  }
+
+  .weather-card {
+    width: 90%;
+  }
+}
