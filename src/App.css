@@ -1,3 +1,4 @@
+
 /* ----------------------------
    GLOBAL
 ----------------------------- */
@@ -6,6 +7,7 @@
   padding: 0;
   box-sizing: border-box;
   transition: all 0.25s ease-in-out;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .app {
@@ -21,7 +23,6 @@
   align-items: center;
   overflow-y: auto;
 
-  /* Smooth background fade */
   transition: background-image 0.7s ease-in-out;
 }
 
@@ -84,15 +85,27 @@
   background-color: #0c8a5b;
 }
 
+.search-box button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 /* ----------------------------
-   ERROR
+   STATES
 ----------------------------- */
+.loading {
+  color: #0aa06e;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
 .error {
   color: red;
   font-size: 18px;
   font-weight: bold;
   margin-top: 10px;
-
   animation: fadeIn 0.8s ease-in-out;
 }
 
@@ -111,8 +124,6 @@
   text-align: center;
 
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-
-  /* animation */
   animation: fadeInUp 0.8s ease;
 }
 
@@ -191,10 +202,7 @@
     width: 95%;
   }
 
-  .search-box input {
-    width: 100%;
-  }
-
+  .search-box input,
   .search-box button {
     width: 100%;
   }

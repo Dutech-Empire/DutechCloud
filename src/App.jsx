@@ -6,7 +6,7 @@ function App() {
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState(null);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
 
@@ -19,39 +19,43 @@ function App() {
     Drizzle: "rain.png",
     Mist: "clouds.png",
     Fog: "clouds.png",
-    Night: "night.jpg",
   };
 
   const searchWeather = async () => {
-  if (!city.trim()) return;
+    if (!city.trim()) return;
 
-  try {
-    setLoading(true);
-    setError("");
-    setWeather(null);
+    try {
+      setLoading(true);
+      setError("");
+      setWeather(null);
 
-    const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
-    );
+      const response = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
+      );
 
-    if (!response.ok) {
-      setError("City not found");
+      if (!response.ok) {
+        setError("City not found");
+        setLoading(false);
+        return;
+      }
+
+      const data = await response.json();
+      setWeather(data);
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+    } finally {
       setLoading(false);
-      return;
     }
-
-    const data = await response.json();
-    setWeather(data);
-  } catch (err) {
-    setError("Something went wrong.");
-  } finally {
-    setLoading(false);
-  }
-};
-
+  };
 
   const getBackgroundImage = () => {
     if (!weather) return "default.png";
+
+    // Night detection (icon contains "n")
+    if (weather.weather[0].icon.includes("n")) {
+      return "night.jpg";
+    }
+
     const condition = weather.weather[0].main;
     return weatherBackgrounds[condition] || "default.png";
   };
@@ -60,7 +64,7 @@ function App() {
     <div
       className="app"
       style={{
-        backgroundImage: `url('/assets/${getBackgroundImage()}')`,
+        backgroundImage: `url('/backgrounds/${getBackgroundImage()}')`,
       }}
     >
       <header className="header">
@@ -75,9 +79,12 @@ function App() {
           value={city}
           onChange={(e) => setCity(e.target.value)}
         />
-        <button onClick={searchWeather}>Search</button>
+        <button onClick={searchWeather} disabled={loading}>
+          {loading ? "Loading..." : "Search"}
+        </button>
       </div>
 
+      {loading && <p className="loading">Fetching weather...</p>}
       {error && <p className="error">{error}</p>}
 
       {weather && (
@@ -85,12 +92,13 @@ function App() {
           <h2>{weather.name}</h2>
           <p className="temp">{Math.round(weather.main.temp)}°C</p>
           <p className="condition">{weather.weather[0].main}</p>
-          <p className="description">{weather.weather[0].description}</p>
+          <p className="description">
+            {weather.weather[0].description}
+          </p>
         </div>
       )}
     </div>
   );
-
 }
 
 export default App;
