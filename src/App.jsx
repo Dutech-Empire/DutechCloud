@@ -35,7 +35,6 @@ function App() {
 
       if (!response.ok) {
         setError("City not found");
-        setLoading(false);
         return;
       }
 
@@ -49,23 +48,25 @@ function App() {
   };
 
   const getBackgroundImage = () => {
-    if (!weather) return "default.png";
+    if (!weather) return "";
 
-    // Night detection (icon contains "n")
+    // Night detection
     if (weather.weather[0].icon.includes("n")) {
       return "night.jpg";
     }
 
     const condition = weather.weather[0].main;
-    return weatherBackgrounds[condition] || "default.png";
+    return weatherBackgrounds[condition] || "";
   };
 
   return (
     <div
-      className="app"
-      style={{
-        backgroundImage: `url('/backgrounds/${getBackgroundImage()}')`,
-      }}
+      className={`app ${weather ? "has-bg" : ""}`}
+      style={
+        weather
+          ? { backgroundImage: `url('/backgrounds/${getBackgroundImage()}')` }
+          : {}
+      }
     >
       <header className="header">
         <img src={dutechCloud} className="logo" alt="Dutech Cloud" />
