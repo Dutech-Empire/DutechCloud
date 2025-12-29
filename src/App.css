@@ -178,4 +178,56 @@
   .weather-card {
     width: 90%;
   }
+  .recent-searches {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.recent-searches p {
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #0aa06e;
+}
+
+.recent-list {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.recent-list button {
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid #0aa06e;
+  background: white;
+  color: #0aa06e;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.recent-list button:hover {
+  background: #0aa06e;
+  color: white;
+}
+.unit-toggle {
+  margin-top: 10px;
+}
+
+.unit-toggle button {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid #0aa06e;
+  background: white;
+  color: #0aa06e;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.unit-toggle button:hover {
+  background: #0aa06e;
+  color: white;
+}
+
+
 }
