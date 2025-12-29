@@ -1,4 +1,5 @@
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import "./App.css";
 import dutechCloud from "./assets/dutechCloud.png";
 
@@ -21,6 +22,50 @@ function App() {
     Fog: "clouds.png",
   };
 
+  // ✅ FETCH BY LOCATION (MUST BE OUTSIDE)
+  const fetchWeatherByLocation = async (lat, lon) => {
+    try {
+      setLoading(true);
+      setError("");
+      setWeather(null);
+
+      const response = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`
+      );
+
+      if (!response.ok) {
+        setError("Unable to fetch location weather");
+        return;
+      }
+
+      const data = await response.json();
+      setWeather(data);
+    } catch (err) {
+      setError("Location weather failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ✅ AUTO LOCATION (RUNS ON LOAD)
+  useEffect(() => {
+    if (!navigator.geolocation) {
+      console.log("Geolocation not supported");
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        fetchWeatherByLocation(latitude, longitude);
+      },
+      () => {
+        console.log("Location permission denied");
+      }
+    );
+  }, []);
+
+  // ✅ MANUAL SEARCH
   const searchWeather = async () => {
     if (!city.trim()) return;
 
@@ -50,7 +95,6 @@ function App() {
   const getBackgroundImage = () => {
     if (!weather) return "";
 
-    // Night detection
     if (weather.weather[0].icon.includes("n")) {
       return "night.jpg";
     }
