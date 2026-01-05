@@ -141,14 +141,17 @@ function App() {
   };
 
   return (
-    <div
-      className={`app ${weather ? "has-bg" : ""}`}
-      style={
-        weather
-          ? { backgroundImage: `url('/backgrounds/${getBackgroundImage()}')` }
-          : {}
-      }
-    >
+   <div
+  className={`app ${weather ? "has-bg" : ""}`}
+  style={
+    weather
+      ? {
+          backgroundImage: `url('/backgrounds/${getBackgroundImage()}')`,
+        }
+      : {}
+  }
+>
+  {weather && <div className="bg-overlay"></div>}
       {/* HEADER */}
       <header className="header">
         <img src={dutechCloud} className="logo" alt="Dutech Cloud" />
@@ -194,9 +197,18 @@ function App() {
           </div>
         </div>
       )}
-
+      {!weather && !loading && !error && (
+  <p className="empty-state">
+    Search for a city or allow location access 🌤️
+  </p>
+)}
       {/* STATES */}
-      {loading && <p className="loading">Fetching weather...</p>}
+      {loading && (
+  <p className="loading">
+    🌍 Fetching weather for you…
+  </p>
+)}
+
       {error && <p className="error">{error}</p>}
 
       {/* WEATHER CARD */}

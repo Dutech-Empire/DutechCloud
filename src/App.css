@@ -174,10 +174,22 @@
   .search-box button {
     width: 100%;
   }
+.weather-card {
+  animation: fadeUp 0.5s ease;
+}
 
-  .weather-card {
-    width: 90%;
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+  
   .recent-searches {
   margin-top: 15px;
   text-align: center;
@@ -231,3 +243,23 @@
 
 
 }
+.bg-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 0;
+}
+
+/* Ensure content stays above overlay */
+.app > * {
+  position: relative;
+  z-index: 1;
+}
+.empty-state {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #0aa06e;
+  font-weight: 600;
+}
+
+
