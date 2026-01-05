@@ -9,7 +9,9 @@ function App() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [recentSearches, setRecentSearches] = useState([]);
-  const [unit, setUnit] = useState("metric"); // metric = °C, imperial = °F
+  const [unit, setUnit] = useState("metric"); //metric = °C, imperial = °F
+  const [smartTip, setSmartTip] = useState("");
+
 
   const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
 
@@ -57,12 +59,40 @@ function App() {
 
       const data = await response.json();
       setWeather(data);
+      setSmartTip(generateSmartTip(data));
     } catch {
       setError("Location weather failed");
     } finally {
       setLoading(false);
     }
   };
+  const generateSmartTip = (data) => {
+  const condition = data.weather[0].main;
+  const temp = data.main.temp;
+
+  if (condition === "Rain" || condition === "Drizzle") {
+    return "Carry an umbrella ☔";
+  }
+
+  if (condition === "Snow") {
+    return "Drive carefully and stay warm ❄️";
+  }
+
+  if (condition === "Clear" && temp > (unit === "metric" ? 32 : 90)) {
+    return "It’s hot — stay hydrated 💧";
+  }
+
+  if (temp < (unit === "metric" ? 10 : 50)) {
+    return "Cold weather — wear warm layers 🧥";
+  }
+
+  if (condition === "Clouds") {
+    return "A calm cloudy day ☁️";
+  }
+
+  return "Have a great day 🌍";
+};
+
 
   useEffect(() => {
     if (!navigator.geolocation) return;
@@ -114,6 +144,7 @@ function App() {
 
       const data = await response.json();
       setWeather(data);
+      setSmartTip(generateSmartTip(data));
       saveRecentSearch(data.name);
     } catch {
       setError("Something went wrong. Please try again.");
@@ -210,7 +241,12 @@ function App() {
 )}
 
       {error && <p className="error">{error}</p>}
-
+      
+      {weather && smartTip && (
+  <div className="smart-tip">
+    💡 {smartTip}
+  </div>
+)}
       {/* WEATHER CARD */}
       {weather && (
         <div className="weather-card">
